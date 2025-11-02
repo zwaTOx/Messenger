@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from src.app.database import DbSession
 from src.app.auth.dependencies import CurrentUser
 from .schemes import InviteUserRequest
+from .chat_users_service import ChatUsersService
 
 chat_users_router = APIRouter()
 
@@ -14,4 +15,5 @@ async def invite_user_in_chat(
     chat_id: int,
     inv_user_data: InviteUserRequest
 ):
-    pass
+    member = await ChatUsersService(session).invite_user(user.user_id, chat_id, inv_user_data)
+    return member
