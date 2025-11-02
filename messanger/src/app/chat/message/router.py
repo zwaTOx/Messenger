@@ -19,8 +19,7 @@ async def create_chat_message(
     message_data: CreateMessageRequest
 ):
     posted_message = await MessageService(session).post_message(user.user_id, chat_id, message_data)
-    # background_tasks.add_task(ws_manager.broadcast_to_chat, session, chat_id, message_data)
-    await ws_manager.broadcast_to_chat(session, chat_id, posted_message.model_dump())
+    background_tasks.add_task(ws_manager.broadcast_to_chat, session, chat_id, posted_message.model_dump())
     return posted_message
 
 @message_router.get(
