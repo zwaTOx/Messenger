@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from src.app.database import init_db
 
+from src.app.auth.router import auth_router
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print('Server is starting')
@@ -12,7 +14,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title='AI Task Traker',
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -26,3 +28,6 @@ app.add_middleware(
 @app.get('/')
 async def ping():
     return {'msg': 'pong'}
+
+app.include_router(auth_router,
+    prefix='/api')

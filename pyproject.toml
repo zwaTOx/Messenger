@@ -7,7 +7,10 @@ requires-python = ">=3.12"
 dependencies = [
     "asyncpg>=0.30.0",
     "fastapi>=0.120.4",
+    "passlib[bcrypt]>=1.7.4",
     "pydantic-settings>=2.11.0",
+    "pydantic[email]>=2.12.3",
+    "python-jose[cryptography]>=3.5.0",
     "sqlalchemy>=2.0.44",
     "sqlmodel>=0.0.27",
     "uvicorn>=0.38.0",
