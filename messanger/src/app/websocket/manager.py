@@ -2,6 +2,9 @@ import json
 from typing import List
 from fastapi import WebSocket
 
+from src.app.repositories.chat_users_repository import ChatUserRepository
+from src.app.database import DbSession
+
 
 class ConnectionManager:
     def __init__(self):
@@ -27,15 +30,21 @@ class ConnectionManager:
         if user_id in self.active_connections:
             await self.active_connections[user_id].send_json(payload)
 
-    async def broadcast_to_all(self, message: dict):
+    async def broadcast_to_chat(self, session: DbSession, chat_id: int, message_data: dict):
         disconnected_users = []
-        
-        for user_id, connection in self.active_connections.items():
-            try:
-                await connection.send_text(json.dumps(message))
-            except Exception:
-                disconnected_users.append(user_id)
-        
+        chat_user_repo = ChatUserRepository(session)
+        chat_members = await chat_user_repo.get_all(chat_id=chat_id)
+        for member in chat_members:
+            user_id = member.user_id
+            print(f'id: {user_id}')
+            if user_id in self.active_connections:
+                try:
+                    print(f'Sended')
+                    await self.active_connections[user_id].send_json(message_data)
+                except Exception:
+                    print(f'Dissconnect')
+                    disconnected_users.append(user_id)
+    
         for user_id in disconnected_users:
             if user_id in self.active_connections:
                 del self.active_connections[user_id]
