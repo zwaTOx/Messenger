@@ -15,7 +15,7 @@ class SQLAlchemyRepository:
             if hasattr(self.model, field):
                 query = query.where(getattr(self.model, field) == value)
         result = await self.session.execute(query)
-        return result.scalars().one_or_none()
+        return result.scalars().first()
     
     async def get_all(self, **filters: Dict[str, Any]):
         query = select(self.model)

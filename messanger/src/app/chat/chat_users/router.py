@@ -17,3 +17,14 @@ async def invite_user_in_chat(
 ):
     member = await ChatUsersService(session).invite_user(user.user_id, chat_id, inv_user_data)
     return member
+
+@chat_users_router.get(
+    "/chats/{chat_id}/members"
+)
+async def get_chat_members(
+    user: CurrentUser,
+    session: DbSession,
+    chat_id: int,
+):
+    members = await ChatUsersService(session).get_chat_members(user.user_id, chat_id)
+    return members

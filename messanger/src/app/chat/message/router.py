@@ -1,0 +1,32 @@
+from fastapi import APIRouter, status
+from src.app.database import DbSession
+from src.app.auth.dependencies import CurrentUser
+from .schemes import CreateMessageRequest
+from .message_service import MessageService
+
+
+message_router = APIRouter()
+
+@message_router.post(
+    "/chats/{chat_id}/messages",
+    status_code=status.HTTP_201_CREATED
+)
+async def create_chat_message(
+    session: DbSession,
+    user: CurrentUser,
+    chat_id: int,
+    message_data: CreateMessageRequest
+):
+    posted_message = await MessageService(session).post_message(user.user_id, chat_id, message_data)
+    return posted_message
+
+@message_router.get(
+    "/chats/{chat_id}/messages",
+)
+async def get_chat_messages(
+    session: DbSession,
+    user: CurrentUser,
+    chat_id: int
+):
+    messages = await MessageService(session).get_chat_messages(user.user_id, chat_id)
+    return messages

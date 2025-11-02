@@ -8,3 +8,4 @@ class PermissionException(AppHTTPException):
 class ConflictException(AppHTTPException):
     def __init__(self, detail="Пользователь уже существует в данном чате"):
         super().__init__(status_code=status.HTTP_409_CONFLICT, detail=detail)
+

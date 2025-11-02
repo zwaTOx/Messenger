@@ -13,6 +13,10 @@ class InvalidUserCredentialsException(AppHTTPException):
     def __init__(self, detail="Неверные данные пользователя"):
         super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail)
 
+class UserNotFoundException(AppHTTPException):
+    def __init__(self, detail="Пользователь не найден"):
+        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+
 class TokenException(AppHTTPException):
     def __init__(self, detail="Ошибка в токене"):
         super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail)
