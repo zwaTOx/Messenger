@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.app.repositories.message_repository import MessageRepository
 from src.app.chat.chat_users.chat_users_service import ChatUserRepository
-from .schemes import CreateMessageRequest
+from .schemes import CreateMessageRequest, MessageResponse
 from src.app.exceptions.chat_exceptions import PermissionException 
 
 class MessageService:
@@ -9,7 +9,7 @@ class MessageService:
         self.session = session
         self.message_repo = MessageRepository(session)
 
-    async def post_message(self, user_id: int, chat_id: int, message_data: CreateMessageRequest):
+    async def post_message(self, user_id: int, chat_id: int, message_data: CreateMessageRequest) -> MessageResponse:
         chat_member = await ChatUserRepository(self.session).get(user_id=user_id, chat_id=chat_id)
         if not chat_member:
             raise PermissionException
@@ -18,7 +18,7 @@ class MessageService:
             user_id=user_id,
             message=message_data.message
         )
-        return message
+        return MessageResponse.model_validate(message)
     
     async def get_chat_messages(self, user_id: int, chat_id: int):
         chat_member = await ChatUserRepository(self.session).get(user_id=user_id, chat_id=chat_id)

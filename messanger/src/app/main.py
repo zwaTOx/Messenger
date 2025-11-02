@@ -7,6 +7,7 @@ from src.app.auth.router import auth_router
 from src.app.chat.chat_rooms.router import chat_rooms_router
 from src.app.chat.chat_users.router import chat_users_router
 from src.app.chat.message.router import message_router
+from src.app.websocket.router import ws_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -40,3 +41,4 @@ app.include_router(chat_users_router,
     prefix='/api', tags=['User', 'Chat'])
 app.include_router(message_router,
     prefix='/api', tags=['Message'])
+app.include_router(ws_router)

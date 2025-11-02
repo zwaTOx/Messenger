@@ -27,5 +27,6 @@ async def login_user(
     user_login_data: LoginRequest
 ):
     token_response = await AuthService(session).login_user(user_login_data)
+    
     response.set_cookie(key="access_token", value = token_response.access_token, httponly=True)
     return token_response
