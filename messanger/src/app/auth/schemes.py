@@ -19,7 +19,7 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
 
 class UserResponse(BaseModel):
-    id: int
+    user_id: int
     email: str
     # username: str
     model_config = ConfigDict(

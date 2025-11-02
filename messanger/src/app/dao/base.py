@@ -25,16 +25,12 @@ class SQLAlchemyRepository:
         result = await self.session.execute(query)
         return result.scalars().all()
 
-    async def create(self, data: BaseModel, **extra_fields: Dict[str, Any]):
-        instance_data = data.model_dump(exclude_none=True)
-        instance_data.update(extra_fields)
-        
-        instance = self.model(**instance_data)
+    async def create(self, **extra_fields: Dict[str, Any]):
+        instance = self.model(**extra_fields)
         self.session.add(instance)
         await self.session.commit()
         await self.session.refresh(instance)
         return instance
-
 
     async def update(self, id: int, data: BaseModel):
         instance = await self.get(id)

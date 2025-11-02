@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from src.app.database import DbSession
 from src.app.auth.dependencies import CurrentUser
-from .schemes import CreateRoomRequest, InviteUserRequest
+from .schemes import CreateRoomRequest
 from .chat_service import ChatRoomService
 
 chat_rooms_router = APIRouter()

@@ -1,8 +1,5 @@
 from fastapi import HTTPException, status
-
-class AppHTTPException(HTTPException):
-    def __init__(self, status_code: int, detail: str):
-        super().__init__(status_code=status_code, detail=detail)
+from src.app.exceptions.base import AppHTTPException
 
 class UserAlreadyExistsException(AppHTTPException):
     def __init__(self, detail="Пользователь с таким email уже существует"):

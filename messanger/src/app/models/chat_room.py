@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 class ChatRoom(Base):
     __tablename__ = "chat_rooms"
     
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    chat_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)  
     info: Mapped[str] = mapped_column(Text, nullable=True)  
     isPrivate: Mapped[bool] = mapped_column(default=True)
