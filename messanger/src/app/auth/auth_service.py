@@ -27,7 +27,7 @@ class AuthService:
         founded_user = await self._get_user(user_data.email)
         if not founded_user or not verify_password(user_data.password, founded_user.password): 
             raise InvalidUserCredentialsException
-        access_token = create_token({"sub": str(founded_user.id)})
+        access_token = create_token({"sub": str(founded_user.user_id)})
         return TokenResponse(access_token=access_token)
         
 

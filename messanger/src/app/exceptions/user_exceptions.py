@@ -15,3 +15,7 @@ class PasswordMismatchException(AppHTTPException):
 class InvalidUserCredentialsException(AppHTTPException):
     def __init__(self, detail="Неверные данные пользователя"):
         super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail)
+
+class TokenException(AppHTTPException):
+    def __init__(self, detail="Ошибка в токене"):
+        super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail)

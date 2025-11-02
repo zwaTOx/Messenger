@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from src.app.database import init_db
 
 from src.app.auth.router import auth_router
+from src.app.chat_rooms.router import chat_rooms_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,4 +31,6 @@ async def ping():
     return {'msg': 'pong'}
 
 app.include_router(auth_router,
+    prefix='/api')
+app.include_router(chat_rooms_router,
     prefix='/api')
